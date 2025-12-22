@@ -1,8 +1,9 @@
 package Pages;
 
+import Base.BasePage;
 import org.openqa.selenium.*;
 
-public class LoginPage extends BasePage{
+public class LoginPage extends BasePage {
     private final By usernameField;
     private final By passwordField;
     private final By loginButton;
@@ -14,10 +15,11 @@ public class LoginPage extends BasePage{
         this.passwordField = By.name("password");
         this.loginButton = By.cssSelector("button[type='submit']");
     }
+
     public DashboardPage login(String username, String password){
-        getElement(this.usernameField).sendKeys(username);
-        getElement(this.passwordField).sendKeys(password);
-        getElement(this.loginButton).click();
+        type(usernameField, username);
+        type(passwordField, password);
+        click(loginButton);
         return new DashboardPage(driver);
     }
 }
