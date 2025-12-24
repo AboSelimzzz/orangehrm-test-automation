@@ -9,6 +9,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.*;
 
 import java.time.Duration;
+import java.util.List;
 
 public class BasePage {
     protected WebDriver driver;
@@ -48,13 +49,19 @@ public class BasePage {
         return new TimePage(driver);
     }
 
+    public EmployeeProfilePage goToMyInfoPage(){
+        click(sidePanel.getMyInfoButton());
+        return new EmployeeProfilePage(driver);
+    }
+
     public String getPageName(){
         return getText(headerSection.getPageName());
     }
 
-    public void logout(){
+    public LoginPage logout(){
         click(headerSection.getProfileButton());
         click(headerSection.getLogoutButton());
+        return new LoginPage(driver);
     }
 
     public void scrollDownTo(WebElement e){
@@ -77,5 +84,20 @@ public class BasePage {
 
     public WebElement getElement(By by){
         return wait.until(ExpectedConditions.elementToBeClickable(by));
+    }
+
+    public void waitToPageToLoad(String pageUrl){
+        wait.until(ExpectedConditions.urlContains(pageUrl));
+    }
+
+    public void chooseFromDropDown(By dropDown, String desired){
+        List<WebElement> options = driver.findElements(By.xpath("//div[@role='listbox']/div[@role='option']/span"));
+        click(dropDown);
+        for(WebElement option: options){
+            if(option.getText().equals(desired)){
+                option.click();
+                return;
+            }
+        }
     }
 }

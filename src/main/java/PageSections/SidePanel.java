@@ -7,12 +7,14 @@ public class SidePanel {
     private final By pimButton;
     private final By timeButton;
     private final By dashboardButton;
+    private final By myInfoButton;
 
     public SidePanel(){
         this.adminButton = By.linkText("Admin");
         this.pimButton = By.linkText("PIM");
         this.timeButton = By.linkText("Time");
         this.dashboardButton = By.linkText("Dashboard");
+        this.myInfoButton = By.linkText("My Info");
     }
 
     public By getAdminButton() {
@@ -30,4 +32,6 @@ public class SidePanel {
     public By getDashboardButton() {
         return dashboardButton;
     }
+
+    public By getMyInfoButton(){return myInfoButton;}
 }

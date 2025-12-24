@@ -1,22 +1,25 @@
 package Tests;
 
+import Config.DriverFactory;
 import DataDriven.ExcelFileManager;
 import DataDriven.JSONFileManager;
 import Pages.LoginPage;
 import org.openqa.selenium.*;
-import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
+import java.time.Duration;
+
 public class BaseTest {
-    WebDriver driver;
-    LoginPage loginPage;
-    JSONFileManager jsonFileManager;
-    ExcelFileManager excelFileManager;
+    protected WebDriver driver;
+    protected LoginPage loginPage;
+    protected JSONFileManager jsonFileManager;
+    protected ExcelFileManager excelFileManager;
 
     @BeforeMethod
     public void setup(){
-        driver = new EdgeDriver();
+        driver = DriverFactory.getDriver("edge");
         driver.manage().window().maximize();
         driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
         loginPage =new LoginPage(driver);
@@ -27,7 +30,7 @@ public class BaseTest {
 
     @AfterMethod
     public void shutDown(){
-        driver.quit();
+        //DriverFactory.quitDriver();
     }
 
     public void assertTrue(boolean condition, String message){

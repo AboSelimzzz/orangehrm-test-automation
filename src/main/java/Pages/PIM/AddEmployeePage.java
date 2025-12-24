@@ -41,7 +41,7 @@ public class AddEmployeePage extends PIMPage {
         type(middleNameField, middleName);
         type(lastNameField, lastName);
         type(employeeIDField, employeeID);
-        if(!create)
+        if(create)
             click(createLoginDetailsField);
     }
 
@@ -52,6 +52,7 @@ public class AddEmployeePage extends PIMPage {
         if(!status)
             click(statusField);
         click(saveButton);
+        waitToPageToLoad("/pim/viewPersonalDetails/empNumber");
         return new EmployeeProfilePage(driver);
     }
 
