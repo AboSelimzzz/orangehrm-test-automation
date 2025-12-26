@@ -25,13 +25,14 @@ public class EmployeeCreationAndRoleAssignmentTest extends BaseTest{
         AddEmployeePage addEmployeePage = pimPage.goToAddEmployeePage();
         assertTrue(addEmployeePage.isPageDisplayed(), "Error: The page is not displayed!!");
 
-        addEmployeePage.addPersonalInfo("Test", "", "Test", "1234", true);
+        addEmployeePage.addPersonalInfo("Test", "", "Test", "0411", true);
         EmployeeProfilePage employeeProfilePage = addEmployeePage.
                 addLoginDetailsInfo(this.username, "Test12345", "Test12345", true);
 
+
         UserManagementPage userManagementPage = employeeProfilePage.goToAdminPage().goTouserManagementPage();
 
-        EditEmployeePage editEmployeePage = userManagementPage.openEmployeePage("Test1234");
+        EditEmployeePage editEmployeePage = userManagementPage.openEmployeePage(this.username);
         userManagementPage = editEmployeePage.changeRole("ESS");
 
         loginPage = userManagementPage.logout();

@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.*;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.Objects;
 
 public class BasePage {
     protected WebDriver driver;
@@ -30,6 +31,7 @@ public class BasePage {
     }
 
     public AdminPage goToAdminPage(){
+        sleep(1);
         click(sidePanel.getAdminButton());
         return new AdminPage(driver);
     }
@@ -70,7 +72,9 @@ public class BasePage {
 
     public void type(By locator, String text){
         WebElement element = getElement(locator);
-        element.clear();
+        element.click();
+        element.sendKeys(Keys.chord(Keys.CONTROL, "a"));
+        element.sendKeys(Keys.DELETE);
         element.sendKeys(text);
     }
 
@@ -79,7 +83,14 @@ public class BasePage {
     }
 
     public String getText(By locator) {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(locator)).getText();
+        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+        assert element != null;
+        String tag = element.getTagName();
+        if(tag.equalsIgnoreCase("input") || tag.equalsIgnoreCase("textarea")) {
+            return Objects.requireNonNull(element.getAttribute("value")).trim();
+        } else {
+            return element.getText().trim();
+        }
     }
 
     public WebElement getElement(By by){
@@ -91,13 +102,33 @@ public class BasePage {
     }
 
     public void chooseFromDropDown(By dropDown, String desired){
-        List<WebElement> options = driver.findElements(By.xpath("//div[@role='listbox']/div[@role='option']/span"));
         click(dropDown);
+        By optionLocator = By.xpath("//div[@role='listbox']/div[@role='option']/span");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(optionLocator));
+        List<WebElement> options = driver.findElements(optionLocator);
         for(WebElement option: options){
             if(option.getText().equals(desired)){
                 option.click();
                 return;
             }
+        }
+    }
+    public boolean equalsText(By locator, String expected) {
+        return expected.equals(getText(locator));
+    }
+
+    public void waitForLoadingToFinish() {
+        By loader = By.cssSelector(".oxd-loading-spinner");
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(loader));
+    }
+
+    protected void sleep(long seconds) {
+        try {
+            Thread.sleep(seconds * 1000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
         }
     }
 }

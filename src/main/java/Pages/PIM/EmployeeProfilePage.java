@@ -19,7 +19,7 @@ public class EmployeeProfilePage extends PIMPage {
         personalDetailsButton = By.cssSelector("a[href*='viewPersonalDetails']");
         emergencyContactsButton = By.cssSelector("a[href*='viewEmergencyContacts']");
         dependentsButton = By.cssSelector("a[href*='viewDependents']");
-        contactDetailsButton = By.cssSelector("a[href*='Contact Details']");
+        contactDetailsButton = By.cssSelector("a[href*='contactDetails']");
     }
 
     public PersonalDetailsPage OpenPersonalDetailsPage(){
